@@ -10,8 +10,8 @@ import HttpException from "../utils/helpers/httpException.util";
 const {
     create,
     validateEmail,
-    validateUsername,
-    findByUsername,
+    validateCompanyname,
+    findByCompanyName,
     validatePassword,
     generateAuthToken
 } = new UserService();
@@ -33,20 +33,20 @@ export default class UserController {
             const data = req.body;
 
             await validateEmail(data.email);
-            await validateUsername(data.username);
+            await validateCompanyname(data.companyName);
 
             const user = await create(data);
 
             const token = generateAuthToken(user as any);
 
-            const { _id, email } = user!
+            const { _id, companyName } = user!
 
             res.cookie("token", token, {
                 httpOnly: true,
                 maxAge: MAXAGE * THOUSAND
             });
 
-            return new CustomResponse(ADDED, true, CREATED, res, { _id, email, token });
+            return new CustomResponse(ADDED, true, CREATED, res, { _id, companyName });
 
         } catch (error) {
 
@@ -65,20 +65,20 @@ export default class UserController {
 
             const data = req.body
 
-            const user = await findByUsername(data.username);
+            const user = await findByCompanyName(data.username);
 
             await validatePassword(data.password, user!);
 
             const token = generateAuthToken(user as any);
 
-            const { id, email } = user!
+            const { id, companyName } = user!
 
             res.cookie("token", token, {
                 httpOnly: true,
                 maxAge: MAXAGE * THOUSAND
             });
 
-            return new CustomResponse(OK, true, LOGGEDIN, res, { id, email, token });
+            return new CustomResponse(OK, true, LOGGEDIN, res, { id, companyName });
 
         } catch (error) {
 

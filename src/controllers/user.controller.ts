@@ -27,9 +27,9 @@ export default class UserController {
 
             const user = await findById(_id);
 
-            const { id, username } = user
+            const { id, companyName } = user
 
-            return new CustomResponse(OK, true, FETCHED, res, { id, username });
+            return new CustomResponse(OK, true, FETCHED, res, { id, companyName });
 
         } catch (error) {
 
