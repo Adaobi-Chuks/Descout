@@ -22,33 +22,13 @@ export default interface IDriver extends Document {
         };
         ratings: number;
         trips: number;
-        dvi: {
-            driverLicense: {
-                image: string;
-                timestampUploaded: string;
-                status: string;
-            };
-            ownershipCert: {
-                image: string;
-                timestampUploaded: string;
-                status: string;
-            };
-            lassraCard: {
-                image: string;
-                timestampUploaded: string;
-                status: string;
-            };
-            lassraCard2: {
-                image: string;
-                timestampUploaded: string;
-                status: string;
-            };
-            roadWorthinessCertificate: {
-                image: string;
-                timestampUploaded: string;
-                status: string;
-            }
-        };
+        dvi: [{
+            document: string, 
+            image: string,
+            status: string,
+            format: string,
+            timestampUploaded: string
+        }];
         dateJoined: string;
         vehicleName: string;
         modelNo: string;
