@@ -16,8 +16,3 @@ router.use("/auth", authRoute);
 router.use("/driver", driverRoute);
 
 export default router;
-// export default (app: Application) => {
-//     app.get("/", (_req: Request, res: Response) => {
-//         res.redirect(`${BASEPATH}`);
-//     });
-// };
