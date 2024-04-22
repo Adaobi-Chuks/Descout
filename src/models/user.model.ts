@@ -11,7 +11,7 @@ const userSchema = new Schema<IUser>({
         sparse: true,
         trim: true
     },
-    username: {
+    companyName: {
         type: String,
         unique: true,
         sparse: true,
