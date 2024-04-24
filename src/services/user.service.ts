@@ -1,4 +1,4 @@
-import { JWT_SECRET, MAXAGE, MESSAGES } from "../configs/constants.config";
+import { MAXAGE, MESSAGES } from "../configs/constants.config";
 import IUser from "../interfaces/user.interface";
 import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
@@ -6,10 +6,10 @@ import BaseRepository from "../repositories/base.repository";
 import User from "../models/user.model";
 import HttpException from "../utils/helpers/httpException.util";
 import { CONFLICT, FORBIDDEN, INTERNAL_SERVER_ERROR, NOT_FOUND, UNAUTHORIZED } from "../utils/statusCodes.util";
-const { create, findOne, findById, find, validateId } = new BaseRepository(
+const UserRepository = new BaseRepository(
     User
 );
-const { INVALID_USER, DUPLICATE_EMAIL, DUPLICATE_USERNAME } = MESSAGES.USER;
+const { INVALID_USER, DUPLICATE_EMAIL, DUPLICATE_COMPANYNAME } = MESSAGES.USER;
 const { NOT_ID, INVALID_ID } = MESSAGES;
 
 export default class UserService {
@@ -17,7 +17,7 @@ export default class UserService {
     async create(user: IUser) {
         try {
 
-            return await create(user);
+            return await UserRepository.create(user);
 
         } catch (error: any) {
 
@@ -28,7 +28,7 @@ export default class UserService {
     async validateEmail(email: string) {
         try {
 
-            if (await findOne({ email })) throw new HttpException(CONFLICT, DUPLICATE_EMAIL);
+            if (await UserRepository.findOne({ email })) throw new HttpException(CONFLICT, DUPLICATE_EMAIL);
 
             return true;
 
@@ -40,10 +40,10 @@ export default class UserService {
         }
     }
 
-    async validateUsername(username: string) {
+    async validateCompanyname(companyName: string) {
         try {
 
-            if (await findOne({ username })) throw new HttpException(CONFLICT, DUPLICATE_USERNAME);
+            if (await UserRepository.findOne({ companyName })) throw new HttpException(CONFLICT, DUPLICATE_COMPANYNAME);
 
             return true;
 
@@ -55,10 +55,10 @@ export default class UserService {
         }
     }
 
-    async findByUsername(username: string) {
+    async findByCompanyName(companyName: string) {
         try {
 
-            const user = await findOne({ username });
+            const user = await UserRepository.findOne({ companyName });
 
             if (!user) throw new HttpException(NOT_FOUND, INVALID_USER);
 
@@ -75,7 +75,7 @@ export default class UserService {
     async findById(id: string) {
         try {
 
-            const user = await findById(id);
+            const user = await UserRepository.findById(id);
 
             if (!user) throw new HttpException(NOT_FOUND, INVALID_ID);
 
@@ -92,7 +92,7 @@ export default class UserService {
     async findAll() {
         try {
 
-            return await find();
+            return await UserRepository.find();
 
         } catch (error: any) {
 
@@ -103,7 +103,7 @@ export default class UserService {
     async validateId(id: string) {
         try {
 
-            if (!(await validateId(id))) throw new HttpException(FORBIDDEN, NOT_ID);
+            if (!(await UserRepository.validateId(id))) throw new HttpException(FORBIDDEN, NOT_ID);
 
             return true;
 
@@ -140,7 +140,7 @@ export default class UserService {
                     id: user._id,
                     email: user.email,
                 },
-                JWT_SECRET,
+                process.env.JWT_SECRET!,
                 {
                     expiresIn: MAXAGE,
                 }
