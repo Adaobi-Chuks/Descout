@@ -22,33 +22,13 @@ const createSchema = Joi.object({
         }).required(),
         ratings: Joi.number().required(),
         trips: Joi.number().required(),
-        dvi: Joi.object({
-            driverLicense: Joi.object({
-                image: Joi.string().required(),
-                timestampUploaded: Joi.string().required(),
-                status: Joi.string().required(),
-            }).required(),
-            ownershipCert: Joi.object({
-                image: Joi.string().required(),
-                timestampUploaded: Joi.string().required(),
-                status: Joi.string().required(),
-            }).required(),
-            lassraCard: Joi.object({
-                image: Joi.string().required(),
-                timestampUploaded: Joi.string().required(),
-                status: Joi.string().required(),
-            }).required(),
-            lassraCard2: Joi.object({
-                image: Joi.string().required(),
-                timestampUploaded: Joi.string().required(),
-                status: Joi.string().required(),
-            }).required(),
-            roadWorthinessCertificate: Joi.object({
-                image: Joi.string().required(),
-                timestampUploaded: Joi.string().required(),
-                status: Joi.string().required(),
-            }).required()
-        }).required(),
+        dvi: Joi.array().items(Joi.object({
+            document: Joi.string().required(),
+            image: Joi.string().required(),
+            status: Joi.string().required(),
+            format: Joi.string().required(),
+            timestampUploaded: Joi.string().required()
+        })).required(),
         dateJoined: Joi.string().required(),
         vehicleName: Joi.string().required(),
         modelNo: Joi.string().required(),
