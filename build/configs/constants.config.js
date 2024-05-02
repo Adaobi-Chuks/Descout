@@ -22,7 +22,7 @@ exports.MESSAGES = {
         CREATED: "User created successfully.",
         LOGGEDIN: "User logged in successfully.",
         DUPLICATE_EMAIL: "Email already exist.",
-        DUPLICATE_USERNAME: "Username already exist.",
+        DUPLICATE_COMPANYNAME: "Company already exist.",
         FETCHED: "User fetched successfully.",
         INVALID_USER: "Invalid credentials."
     },

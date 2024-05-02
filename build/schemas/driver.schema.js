@@ -27,33 +27,13 @@ const createSchema = joi_1.default.object({
         }).required(),
         ratings: joi_1.default.number().required(),
         trips: joi_1.default.number().required(),
-        dvi: joi_1.default.object({
-            driverLicense: joi_1.default.object({
-                image: joi_1.default.string().required(),
-                timestampUploaded: joi_1.default.string().required(),
-                status: joi_1.default.string().required(),
-            }).required(),
-            ownershipCert: joi_1.default.object({
-                image: joi_1.default.string().required(),
-                timestampUploaded: joi_1.default.string().required(),
-                status: joi_1.default.string().required(),
-            }).required(),
-            lassraCard: joi_1.default.object({
-                image: joi_1.default.string().required(),
-                timestampUploaded: joi_1.default.string().required(),
-                status: joi_1.default.string().required(),
-            }).required(),
-            lassraCard2: joi_1.default.object({
-                image: joi_1.default.string().required(),
-                timestampUploaded: joi_1.default.string().required(),
-                status: joi_1.default.string().required(),
-            }).required(),
-            roadWorthinessCertificate: joi_1.default.object({
-                image: joi_1.default.string().required(),
-                timestampUploaded: joi_1.default.string().required(),
-                status: joi_1.default.string().required(),
-            }).required()
-        }).required(),
+        dvi: joi_1.default.array().items(joi_1.default.object({
+            document: joi_1.default.string().required(),
+            image: joi_1.default.string().required(),
+            status: joi_1.default.string().required(),
+            format: joi_1.default.string().required(),
+            timestampUploaded: joi_1.default.string().required()
+        })).required(),
         dateJoined: joi_1.default.string().required(),
         vehicleName: joi_1.default.string().required(),
         modelNo: joi_1.default.string().required(),

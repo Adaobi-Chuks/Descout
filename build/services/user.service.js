@@ -19,14 +19,14 @@ const base_repository_1 = __importDefault(require("../repositories/base.reposito
 const user_model_1 = __importDefault(require("../models/user.model"));
 const httpException_util_1 = __importDefault(require("../utils/helpers/httpException.util"));
 const statusCodes_util_1 = require("../utils/statusCodes.util");
-const { create, findOne, findById, find, validateId } = new base_repository_1.default(user_model_1.default);
-const { INVALID_USER, DUPLICATE_EMAIL, DUPLICATE_USERNAME } = constants_config_1.MESSAGES.USER;
+const UserRepository = new base_repository_1.default(user_model_1.default);
+const { INVALID_USER, DUPLICATE_EMAIL, DUPLICATE_COMPANYNAME } = constants_config_1.MESSAGES.USER;
 const { NOT_ID, INVALID_ID } = constants_config_1.MESSAGES;
 class UserService {
     create(user) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                return yield create(user);
+                return yield UserRepository.create(user);
             }
             catch (error) {
                 throw new httpException_util_1.default(statusCodes_util_1.INTERNAL_SERVER_ERROR, error.message);
@@ -36,7 +36,7 @@ class UserService {
     validateEmail(email) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                if (yield findOne({ email }))
+                if (yield UserRepository.findOne({ email }))
                     throw new httpException_util_1.default(statusCodes_util_1.CONFLICT, DUPLICATE_EMAIL);
                 return true;
             }
@@ -47,11 +47,11 @@ class UserService {
             }
         });
     }
-    validateUsername(username) {
+    validateCompanyname(companyName) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                if (yield findOne({ username }))
-                    throw new httpException_util_1.default(statusCodes_util_1.CONFLICT, DUPLICATE_USERNAME);
+                if (yield UserRepository.findOne({ companyName }))
+                    throw new httpException_util_1.default(statusCodes_util_1.CONFLICT, DUPLICATE_COMPANYNAME);
                 return true;
             }
             catch (error) {
@@ -61,10 +61,10 @@ class UserService {
             }
         });
     }
-    findByUsername(username) {
+    findByCompanyName(companyName) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                const user = yield findOne({ username });
+                const user = yield UserRepository.findOne({ companyName });
                 if (!user)
                     throw new httpException_util_1.default(statusCodes_util_1.NOT_FOUND, INVALID_USER);
                 return user;
@@ -79,7 +79,7 @@ class UserService {
     findById(id) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                const user = yield findById(id);
+                const user = yield UserRepository.findById(id);
                 if (!user)
                     throw new httpException_util_1.default(statusCodes_util_1.NOT_FOUND, INVALID_ID);
                 return user;
@@ -94,7 +94,7 @@ class UserService {
     findAll() {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                return yield find();
+                return yield UserRepository.find();
             }
             catch (error) {
                 throw new httpException_util_1.default(statusCodes_util_1.INTERNAL_SERVER_ERROR, error.message);
@@ -104,7 +104,7 @@ class UserService {
     validateId(id) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                if (!(yield validateId(id)))
+                if (!(yield UserRepository.validateId(id)))
                     throw new httpException_util_1.default(statusCodes_util_1.FORBIDDEN, NOT_ID);
                 return true;
             }
@@ -135,7 +135,7 @@ class UserService {
             return jsonwebtoken_1.default.sign({
                 id: user._id,
                 email: user.email,
-            }, constants_config_1.JWT_SECRET, {
+            }, process.env.JWT_SECRET, {
                 expiresIn: constants_config_1.MAXAGE,
             });
         }

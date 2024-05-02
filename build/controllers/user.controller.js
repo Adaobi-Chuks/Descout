@@ -27,8 +27,8 @@ class UserController {
                 const _id = req.params.id;
                 yield validateId(_id);
                 const user = yield findById(_id);
-                const { id, username } = user;
-                return new response_util_1.default(statusCodes_util_1.OK, true, FETCHED, res, { id, username });
+                const { id, companyName } = user;
+                return new response_util_1.default(statusCodes_util_1.OK, true, FETCHED, res, { id, companyName });
             }
             catch (error) {
                 if (error instanceof httpException_util_1.default) {

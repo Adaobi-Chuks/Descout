@@ -24,33 +24,13 @@ const driverSchema = new mongoose_1.Schema({
             },
             ratings: Number,
             trips: Number,
-            dvi: {
-                driverLicense: {
+            dvi: [{
+                    document: String,
                     image: String,
-                    timestampUploaded: String,
-                    status: String
-                },
-                ownershipCert: {
-                    image: String,
-                    timestampUploaded: String,
-                    status: String
-                },
-                lassraCard: {
-                    image: String,
-                    timestampUploaded: String,
-                    status: String
-                },
-                lassraCard2: {
-                    image: String,
-                    timestampUploaded: String,
-                    status: String
-                },
-                roadWorthinessCertificate: {
-                    image: String,
-                    timestampUploaded: String,
-                    status: String
-                }
-            },
+                    status: String,
+                    format: String,
+                    timestampUploaded: String
+                }],
             dateJoined: String,
             vehicleName: String,
             modelNo: String,

@@ -23,7 +23,7 @@ const userSchema = new mongoose_1.Schema({
         sparse: true,
         trim: true
     },
-    username: {
+    companyName: {
         type: String,
         unique: true,
         sparse: true,
