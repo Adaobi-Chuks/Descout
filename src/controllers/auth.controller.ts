@@ -46,7 +46,7 @@ export default class UserController {
                 maxAge: MAXAGE * THOUSAND
             });
 
-            return new CustomResponse(ADDED, true, CREATED, res, { _id, companyName });
+            return new CustomResponse(ADDED, true, CREATED, res, { _id, companyName, token });
 
         } catch (error) {
 
@@ -78,7 +78,7 @@ export default class UserController {
                 maxAge: MAXAGE * THOUSAND
             });
 
-            return new CustomResponse(OK, true, LOGGEDIN, res, { id, companyName });
+            return new CustomResponse(OK, true, LOGGEDIN, res, { id, companyName, token });
 
         } catch (error) {
 
