@@ -39,8 +39,9 @@ class DriverController {
     getDriver(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                const nin = req.params.nin;
-                const driver = yield findByNin(nin);
+                const nin = req.query.nin;
+                const name = req.query.name;
+                const driver = yield findByNin(nin, name);
                 return new response_util_1.default(statusCodes_util_1.OK, true, FETCHED, res, driver);
             }
             catch (error) {

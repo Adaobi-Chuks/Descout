@@ -30,10 +30,10 @@ class DriverService {
             }
         });
     }
-    findByNin(nin) {
+    findByNin(nin, name) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                const driver = yield DriverRepository.findOne({ nin: nin });
+                const driver = yield DriverRepository.findOne({ nin: nin, "bio.name": name });
                 if (!driver)
                     throw new httpException_util_1.default(statusCodes_util_1.NOT_FOUND, INVALID_ID);
                 return driver;

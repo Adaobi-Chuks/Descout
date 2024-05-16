@@ -8,6 +8,9 @@ const joi_1 = __importDefault(require("joi"));
 const createSchema = joi_1.default.object({
     bio: joi_1.default.object({
         name: joi_1.default.string().required(),
+        imageUrl: joi_1.default.string().required(),
+        carUrl: joi_1.default.string().required(),
+        rating: joi_1.default.string().required(),
         gender: joi_1.default.string().required(),
         age: joi_1.default.number().required(),
         dob: joi_1.default.string().required(),

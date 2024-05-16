@@ -4,6 +4,9 @@ const mongoose_1 = require("mongoose");
 const constants_config_1 = require("../configs/constants.config");
 const driverSchema = new mongoose_1.Schema({
     bio: {
+        imageUrl: String,
+        carUrl: String,
+        rating: String,
         name: String,
         gender: String,
         age: String,

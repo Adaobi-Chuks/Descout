@@ -10,6 +10,6 @@ const router = express.Router();
 router.post("/", authenticate, validate(createSchema), addDriver);
 
 //get a driver
-router.get("/:nin", authenticate, getDriver);
+router.get("/", authenticate, getDriver);
 
 export default router;

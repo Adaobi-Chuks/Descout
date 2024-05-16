@@ -43,9 +43,10 @@ export default class DriverController {
 
         try {
 
-            const nin = req.params.nin;
+            const nin = req.query.nin;
+            const name = req.query.name;
 
-            const driver = await findByNin(nin);
+            const driver = await findByNin(nin as string, name as string);
 
             return new CustomResponse(OK, true, FETCHED, res, driver);
 

@@ -3,6 +3,9 @@ import { Document } from 'mongoose';
 export default interface IDriver extends Document {
     bio: {
         name: string;
+        imageUrl: string;
+        rating: string;
+        carUrl: string;
         gender: string;
         age: string;
         dob: string;

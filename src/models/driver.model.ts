@@ -4,6 +4,9 @@ import { DATABASES } from "../configs/constants.config";
 
 const driverSchema = new Schema<IDriver>({
     bio: {
+        imageUrl: String,
+        carUrl: String,
+        rating: String,
         name: String,
         gender: String,
         age: String,

@@ -22,10 +22,10 @@ export default class DriverService {
         }
     }
 
-    async findByNin(nin: string) {
+    async findByNin(nin: string, name: string) {
         try {
 
-            const driver = await DriverRepository.findOne({nin: nin});
+            const driver = await DriverRepository.findOne({nin: nin, "bio.name": name});
 
             if (!driver) throw new HttpException(NOT_FOUND, INVALID_ID);
 

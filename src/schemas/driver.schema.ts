@@ -3,6 +3,9 @@ import Joi from "joi";
 const createSchema = Joi.object({
     bio: Joi.object({
         name: Joi.string().required(),
+        imageUrl: Joi.string().required(),
+        carUrl: Joi.string().required(),
+        rating: Joi.string().required(),
         gender: Joi.string().required(),
         age: Joi.number().required(),
         dob: Joi.string().required(),

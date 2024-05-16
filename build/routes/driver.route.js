@@ -13,5 +13,5 @@ const router = express_1.default.Router();
 //add a driver
 router.post("/", authentication_middleware_1.default, (0, validate_middleware_1.default)(driver_schema_1.createSchema), addDriver);
 //get a driver
-router.get("/:nin", authentication_middleware_1.default, getDriver);
+router.get("/", authentication_middleware_1.default, getDriver);
 exports.default = router;
