@@ -28,7 +28,8 @@ exports.MESSAGES = {
     },
     DRIVER: {
         CREATED: "Driver added successfully.",
-        FETCHED: "Driver's info fetched successfully."
+        FETCHED: "Driver's info fetched successfully.",
+        DRIVER_NOT_FOUND: "Driver not found.",
     },
     INVALID_ID: "Id doesn't exists.",
     NOT_ID: "Not a valid object Id.",

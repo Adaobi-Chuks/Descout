@@ -7,7 +7,7 @@ import { INTERNAL_SERVER_ERROR, NOT_FOUND } from "../utils/statusCodes.util";
 const DriverRepository = new BaseRepository(
     Driver
 );
-const { NOT_ID, INVALID_ID } = MESSAGES;
+const { DRIVER_NOT_FOUND } = MESSAGES.DRIVER;
 
 export default class DriverService {
 
@@ -25,9 +25,15 @@ export default class DriverService {
     async findByNin(nin: string, name: string) {
         try {
 
-            const driver = await DriverRepository.findOne({nin: nin, "bio.name": name});
+            const searchTerms = name.split(' ').map(term => new RegExp(term, 'i'));
 
-            if (!driver) throw new HttpException(NOT_FOUND, INVALID_ID);
+            const orConditions = searchTerms.map(term => ({
+                "bio.name": { $regex: term }
+            }));
+
+            const driver = await DriverRepository.findOne({ nin: nin, $or: orConditions });
+
+            if (!driver) throw new HttpException(NOT_FOUND, DRIVER_NOT_FOUND);
 
             return driver;
 

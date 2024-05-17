@@ -18,7 +18,7 @@ const driver_model_1 = __importDefault(require("../models/driver.model"));
 const httpException_util_1 = __importDefault(require("../utils/helpers/httpException.util"));
 const statusCodes_util_1 = require("../utils/statusCodes.util");
 const DriverRepository = new base_repository_1.default(driver_model_1.default);
-const { NOT_ID, INVALID_ID } = constants_config_1.MESSAGES;
+const { DRIVER_NOT_FOUND } = constants_config_1.MESSAGES.DRIVER;
 class DriverService {
     create(driver) {
         return __awaiter(this, void 0, void 0, function* () {
@@ -33,9 +33,13 @@ class DriverService {
     findByNin(nin, name) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                const driver = yield DriverRepository.findOne({ nin: nin, "bio.name": name });
+                const searchTerms = name.split(' ').map(term => new RegExp(term, 'i'));
+                const orConditions = searchTerms.map(term => ({
+                    "bio.name": { $regex: term }
+                }));
+                const driver = yield DriverRepository.findOne({ nin: nin, $or: orConditions });
                 if (!driver)
-                    throw new httpException_util_1.default(statusCodes_util_1.NOT_FOUND, INVALID_ID);
+                    throw new httpException_util_1.default(statusCodes_util_1.NOT_FOUND, DRIVER_NOT_FOUND);
                 return driver;
             }
             catch (error) {
