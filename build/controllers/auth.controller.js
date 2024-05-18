@@ -35,7 +35,7 @@ class UserController {
                     httpOnly: true,
                     maxAge: constants_config_1.MAXAGE * constants_util_1.THOUSAND
                 });
-                return new response_util_1.default(statusCodes_util_1.ADDED, true, CREATED, res, { _id, companyName });
+                return new response_util_1.default(statusCodes_util_1.ADDED, true, CREATED, res, { _id, companyName, token });
             }
             catch (error) {
                 if (error instanceof httpException_util_1.default) {
@@ -57,7 +57,7 @@ class UserController {
                     httpOnly: true,
                     maxAge: constants_config_1.MAXAGE * constants_util_1.THOUSAND
                 });
-                return new response_util_1.default(statusCodes_util_1.OK, true, LOGGEDIN, res, { id, companyName });
+                return new response_util_1.default(statusCodes_util_1.OK, true, LOGGEDIN, res, { id, companyName, token });
             }
             catch (error) {
                 if (error instanceof httpException_util_1.default) {
