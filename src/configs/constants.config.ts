@@ -1,5 +1,5 @@
 export const PORT = process.env.PORT || 9871;
-export const JWT_SECRET = process.env.JWT_SECRET!;
+export const JWT_SECRET = process.env.JWT_SECRET;
 export const BASEPATH = "/api/v1";
 export const DATABASES = {
     USER: "user",
@@ -19,7 +19,7 @@ export const MESSAGES = {
         CREATED: "User created successfully.",
         LOGGEDIN: "User logged in successfully.",
         DUPLICATE_EMAIL: "Email already exist.",
-        DUPLICATE_USERNAME: "Username already exist.",
+        DUPLICATE_COMPANYNAME: "Company already exist.",
         FETCHED: "User fetched successfully.",
         INVALID_USER: "Invalid credentials."
     },
