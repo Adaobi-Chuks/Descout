@@ -17,6 +17,7 @@ const base_repository_1 = __importDefault(require("../repositories/base.reposito
 const driver_model_1 = __importDefault(require("../models/driver.model"));
 const httpException_util_1 = __importDefault(require("../utils/helpers/httpException.util"));
 const statusCodes_util_1 = require("../utils/statusCodes.util");
+const mongoose_1 = require("mongoose");
 const DriverRepository = new base_repository_1.default(driver_model_1.default);
 const { DRIVER_NOT_FOUND } = constants_config_1.MESSAGES.DRIVER;
 class DriverService {
@@ -30,20 +31,72 @@ class DriverService {
             }
         });
     }
-    findByNin(nin, name) {
+    findByNinAndName(nin, name) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
                 const searchTerms = name.split(' ').map(term => new RegExp(term, 'i'));
                 const orConditions = searchTerms.map(term => ({
                     "bio.name": { $regex: term }
                 }));
-                const driver = yield DriverRepository.findOne({ nin: nin, $or: orConditions });
+                const driver = yield DriverRepository.findOne({ "bio.nin": nin, $and: orConditions });
                 if (!driver)
                     throw new httpException_util_1.default(statusCodes_util_1.NOT_FOUND, DRIVER_NOT_FOUND);
                 return driver;
             }
             catch (error) {
                 if (error.status === statusCodes_util_1.NOT_FOUND)
+                    throw error;
+                throw new httpException_util_1.default(statusCodes_util_1.INTERNAL_SERVER_ERROR, error.message);
+            }
+        });
+    }
+    findByNin(nin) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                const driver = yield DriverRepository.findOne({ "bio.nin": nin });
+                if (!driver)
+                    throw new httpException_util_1.default(statusCodes_util_1.NOT_FOUND, DRIVER_NOT_FOUND);
+                return driver;
+            }
+            catch (error) {
+                if (error.status === statusCodes_util_1.NOT_FOUND)
+                    throw error;
+                throw new httpException_util_1.default(statusCodes_util_1.INTERNAL_SERVER_ERROR, error.message);
+            }
+        });
+    }
+    findByName(name) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                const searchTerms = name.split(' ').map(term => new RegExp(term, 'i'));
+                const orConditions = searchTerms.map(term => ({
+                    "bio.name": { $regex: term }
+                }));
+                const driver = yield DriverRepository.findOne({ $and: orConditions });
+                if (!driver)
+                    throw new httpException_util_1.default(statusCodes_util_1.NOT_FOUND, DRIVER_NOT_FOUND);
+                return driver;
+            }
+            catch (error) {
+                if (error.status === statusCodes_util_1.NOT_FOUND)
+                    throw error;
+                throw new httpException_util_1.default(statusCodes_util_1.INTERNAL_SERVER_ERROR, error.message);
+            }
+        });
+    }
+    findById(id) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                if (!(0, mongoose_1.isValidObjectId)(id)) {
+                    throw new httpException_util_1.default(statusCodes_util_1.BAD_REQUEST, constants_config_1.MESSAGES.NOT_ID);
+                }
+                const driver = yield DriverRepository.findById(id);
+                if (!driver)
+                    throw new httpException_util_1.default(statusCodes_util_1.NOT_FOUND, DRIVER_NOT_FOUND);
+                return driver;
+            }
+            catch (error) {
+                if ((error.status === statusCodes_util_1.NOT_FOUND) || (error.status === constants_config_1.MESSAGES.NOT_ID))
                     throw error;
                 throw new httpException_util_1.default(statusCodes_util_1.INTERNAL_SERVER_ERROR, error.message);
             }
