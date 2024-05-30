@@ -15,6 +15,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const constants_config_1 = require("../configs/constants.config");
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const bcrypt_1 = __importDefault(require("bcrypt"));
+const crypto_1 = require("crypto");
 const base_repository_1 = __importDefault(require("../repositories/base.repository"));
 const user_model_1 = __importDefault(require("../models/user.model"));
 const httpException_util_1 = __importDefault(require("../utils/helpers/httpException.util"));
@@ -142,6 +143,9 @@ class UserService {
         catch (error) {
             throw new httpException_util_1.default(statusCodes_util_1.INTERNAL_SERVER_ERROR, error.message);
         }
+    }
+    generateApiKey() {
+        return (0, crypto_1.randomBytes)(30).toString('hex');
     }
 }
 exports.default = UserService;

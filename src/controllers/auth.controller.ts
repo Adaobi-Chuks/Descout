@@ -13,7 +13,8 @@ const {
     validateCompanyname,
     findByCompanyName,
     validatePassword,
-    generateAuthToken
+    generateAuthToken,
+    generateApiKey
 } = new UserService();
 const {
     CREATED,
@@ -34,19 +35,20 @@ export default class UserController {
 
             await validateEmail(data.email);
             await validateCompanyname(data.companyName);
+            data.apiKey = generateApiKey();
 
             const user = await create(data);
 
             const token = generateAuthToken(user as any);
 
-            const { _id, companyName } = user!
+            const { _id, companyName, apiKey } = user!
 
             res.cookie("token", token, {
                 httpOnly: true,
                 maxAge: MAXAGE * THOUSAND
             });
 
-            return new CustomResponse(ADDED, true, CREATED, res, { _id, companyName, token });
+            return new CustomResponse(ADDED, true, CREATED, res, { _id, companyName, apiKey, token });
 
         } catch (error) {
 
@@ -71,14 +73,14 @@ export default class UserController {
 
             const token = generateAuthToken(user as any);
 
-            const { id, companyName } = user!
+            const { id, companyName, apiKey } = user!
 
             res.cookie("token", token, {
                 httpOnly: true,
                 maxAge: MAXAGE * THOUSAND
             });
 
-            return new CustomResponse(OK, true, LOGGEDIN, res, { id, companyName, token });
+            return new CustomResponse(OK, true, LOGGEDIN, res, { id, companyName, apiKey, token });
 
         } catch (error) {
 

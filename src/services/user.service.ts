@@ -2,6 +2,7 @@ import { MAXAGE, MESSAGES } from "../configs/constants.config";
 import IUser from "../interfaces/user.interface";
 import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
+import { randomBytes } from 'crypto';
 import BaseRepository from "../repositories/base.repository";
 import User from "../models/user.model";
 import HttpException from "../utils/helpers/httpException.util";
@@ -150,5 +151,9 @@ export default class UserService {
 
             throw new HttpException(INTERNAL_SERVER_ERROR, error.message);
         }
+    }
+
+    generateApiKey() {
+        return randomBytes(30).toString('hex');
     }
 }

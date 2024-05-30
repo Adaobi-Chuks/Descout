@@ -20,6 +20,10 @@ const userSchema = new Schema<IUser>({
     password: {
         type: String,
         required: true
+    },
+    apiKey: {
+        type: String,
+        required: true
     }
 }, {
     strict: true,

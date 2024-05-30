@@ -18,7 +18,7 @@ const constants_config_1 = require("../configs/constants.config");
 const statusCodes_util_1 = require("../utils/statusCodes.util");
 const constants_util_1 = require("../utils/constants.util");
 const httpException_util_1 = __importDefault(require("../utils/helpers/httpException.util"));
-const { create, validateEmail, validateCompanyname, findByCompanyName, validatePassword, generateAuthToken } = new user_service_1.default();
+const { create, validateEmail, validateCompanyname, findByCompanyName, validatePassword, generateAuthToken, generateApiKey } = new user_service_1.default();
 const { CREATED, LOGGEDIN, } = constants_config_1.MESSAGES.USER;
 const { UNEXPECTED_ERROR } = constants_config_1.MESSAGES;
 class UserController {
@@ -28,14 +28,15 @@ class UserController {
                 const data = req.body;
                 yield validateEmail(data.email);
                 yield validateCompanyname(data.companyName);
+                data.apiKey = generateApiKey();
                 const user = yield create(data);
                 const token = generateAuthToken(user);
-                const { _id, companyName } = user;
+                const { _id, companyName, apiKey } = user;
                 res.cookie("token", token, {
                     httpOnly: true,
                     maxAge: constants_config_1.MAXAGE * constants_util_1.THOUSAND
                 });
-                return new response_util_1.default(statusCodes_util_1.ADDED, true, CREATED, res, { _id, companyName, token });
+                return new response_util_1.default(statusCodes_util_1.ADDED, true, CREATED, res, { _id, companyName, apiKey, token });
             }
             catch (error) {
                 if (error instanceof httpException_util_1.default) {
@@ -52,12 +53,12 @@ class UserController {
                 const user = yield findByCompanyName(data.email);
                 yield validatePassword(data.password, user);
                 const token = generateAuthToken(user);
-                const { id, companyName } = user;
+                const { id, companyName, apiKey } = user;
                 res.cookie("token", token, {
                     httpOnly: true,
                     maxAge: constants_config_1.MAXAGE * constants_util_1.THOUSAND
                 });
-                return new response_util_1.default(statusCodes_util_1.OK, true, LOGGEDIN, res, { id, companyName, token });
+                return new response_util_1.default(statusCodes_util_1.OK, true, LOGGEDIN, res, { id, companyName, apiKey, token });
             }
             catch (error) {
                 if (error instanceof httpException_util_1.default) {

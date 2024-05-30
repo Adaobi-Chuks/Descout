@@ -32,6 +32,10 @@ const userSchema = new mongoose_1.Schema({
     password: {
         type: String,
         required: true
+    },
+    apiKey: {
+        type: String,
+        required: true
     }
 }, {
     strict: true,
