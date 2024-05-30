@@ -73,6 +73,23 @@ export default class UserService {
         }
     }
 
+    async findByApiKey(_id: string, apiKey: string) {
+        try {
+
+            const user = await UserRepository.findOne({ _id, apiKey });
+
+            if (!user) throw new HttpException(NOT_FOUND, INVALID_USER);
+
+            return user;
+
+        } catch (error: any) {
+
+            if (error.status === NOT_FOUND) throw error;
+
+            throw new HttpException(INTERNAL_SERVER_ERROR, error.message);
+        }
+    }
+
     async findById(id: string) {
         try {
 

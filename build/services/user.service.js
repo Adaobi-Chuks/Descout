@@ -77,6 +77,21 @@ class UserService {
             }
         });
     }
+    findByApiKey(_id, apiKey) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                const user = yield UserRepository.findOne({ _id, apiKey });
+                if (!user)
+                    throw new httpException_util_1.default(statusCodes_util_1.NOT_FOUND, INVALID_USER);
+                return user;
+            }
+            catch (error) {
+                if (error.status === statusCodes_util_1.NOT_FOUND)
+                    throw error;
+                throw new httpException_util_1.default(statusCodes_util_1.INTERNAL_SERVER_ERROR, error.message);
+            }
+        });
+    }
     findById(id) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
