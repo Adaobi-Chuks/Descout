@@ -55,10 +55,10 @@ export default class UserService {
         }
     }
 
-    async findByCompanyName(companyName: string) {
+    async findByCompanyName(email: string) {
         try {
 
-            const user = await UserRepository.findOne({ companyName });
+            const user = await UserRepository.findOne({ email });
 
             if (!user) throw new HttpException(NOT_FOUND, INVALID_USER);
 

@@ -49,7 +49,7 @@ class UserController {
         return __awaiter(this, void 0, void 0, function* () {
             try {
                 const data = req.body;
-                const user = yield findByCompanyName(data.username);
+                const user = yield findByCompanyName(data.email);
                 yield validatePassword(data.password, user);
                 const token = generateAuthToken(user);
                 const { id, companyName } = user;

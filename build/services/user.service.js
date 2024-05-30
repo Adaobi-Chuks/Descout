@@ -61,10 +61,10 @@ class UserService {
             }
         });
     }
-    findByCompanyName(companyName) {
+    findByCompanyName(email) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                const user = yield UserRepository.findOne({ companyName });
+                const user = yield UserRepository.findOne({ email });
                 if (!user)
                     throw new httpException_util_1.default(statusCodes_util_1.NOT_FOUND, INVALID_USER);
                 return user;

@@ -65,7 +65,7 @@ export default class UserController {
 
             const data = req.body
 
-            const user = await findByCompanyName(data.username);
+            const user = await findByCompanyName(data.email);
 
             await validatePassword(data.password, user!);
 
