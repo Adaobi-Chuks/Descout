@@ -32,6 +32,7 @@ export default function authenticate(req: Request, res: Response, next: NextFunc
         const tokenParts = tokenHeader.split(' ');
 
         if (tokenParts.length !== TWO || tokenParts[ZERO] !== 'Bearer') {
+            console.log(1, tokenParts)
             throw new HttpException(UNAUTHORIZED, INVALID_TOKEN);
         }
 
@@ -39,14 +40,14 @@ export default function authenticate(req: Request, res: Response, next: NextFunc
 
         jwt.verify(token, JWT_SECRET!, async (err: any, decoded: any) => {
             if (err) {
-                throw new HttpException(NOT_FOUND, INVALID_TOKEN);
+                console.log(2, err)
+                return new CustomResponse(NOT_FOUND, false, INVALID_TOKEN, res);
             } else {
                 const authenticatedUser = await findById(decoded.id);
                 (req as AuthRequest).user = authenticatedUser;
                 next();
             }
         });
-        next();
 
     } catch (error) {
         if (error instanceof HttpException) {

@@ -32,12 +32,14 @@ function authenticate(req, res, next) {
         }
         const tokenParts = tokenHeader.split(' ');
         if (tokenParts.length !== constants_util_1.TWO || tokenParts[constants_util_1.ZERO] !== 'Bearer') {
+            console.log(1, tokenParts);
             throw new httpException_util_1.default(statusCodes_util_1.UNAUTHORIZED, INVALID_TOKEN);
         }
         const token = tokenParts[1];
         jsonwebtoken_1.default.verify(token, constants_config_1.JWT_SECRET, (err, decoded) => __awaiter(this, void 0, void 0, function* () {
             if (err) {
-                throw new httpException_util_1.default(statusCodes_util_1.NOT_FOUND, INVALID_TOKEN);
+                console.log(2, err);
+                return new response_util_1.default(statusCodes_util_1.NOT_FOUND, false, INVALID_TOKEN, res);
             }
             else {
                 const authenticatedUser = yield findById(decoded.id);
@@ -45,7 +47,6 @@ function authenticate(req, res, next) {
                 next();
             }
         }));
-        next();
     }
     catch (error) {
         if (error instanceof httpException_util_1.default) {
